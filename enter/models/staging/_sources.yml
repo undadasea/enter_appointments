@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: postgres
+    schema: enter
+    tables:
+      - name: appointments
+      - name: order

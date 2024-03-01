@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: This table has basic information about orders
+    columns:
+      - name: customer_id
+        description: unique identifier of a customer
+        tests:
+          - not_null
+      - name: order_timestamp
+        description: timestamp of when the order was placed
+      - name: order_postal_code
+        description: postal code of the order destination
+        tests:
+          - not_null
+      - name: account_type
+        description: internal type of the customer account
+
+  - name: stg_appointments
+    description: This table has basic information about appointments with customers
+    columns:
+      - name: customer_id
+        description: unique identifier of a customer
+        tests:
+          - not_null
+      - name: appointment_timestamp
+        description: timestamp of when the appointment took place
+      - name: appointment_type
+        description: internal type of the appointment
+        tests:
+          - accepted_values:
+              values: ['project_call', 'final_call', 'on_site_appointment']
+              quote: false
