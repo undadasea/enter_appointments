@@ -103,34 +103,30 @@ order by customer_id, appointment_timestamp
 -- because since we have neither - timestamp nor type, I'd think this entry was created by mistake
 -- type 2: merge
 -- from the looks of it, seems like a backend error
--- type 3: 
+-- type 3: let it be
 -- type 4: fill
 -- only those groups, where it's obvious from previous data
 -- appointment groups of three where known types are in their right place
 
--- type 4
-with correct_groups as (
-    select
-        customer_id,
-        count(*)
-    from enter.stg_appointments a
-    group by customer_id having count(*) = 3
-),
-app_numerated as (
-    select
-        a.*,
-        row_number() over (partition by a.customer_id order by appointment_timestamp)
-    from enter.stg_appointments a
-    join correct_groups c on a.customer_id = c.customer_id
-)
+-- type 1:
+-- fixed in staging layer
+
+-- type 4:
+-- fixed in staging layer
+
+-- type 2:
+-- fill with the following type
+-- fixed in staging layer
+-- example
 select
-    *,
-    case when appointment_type is null then
-        case when row_number = 1 then 'on_site_appointment'
-             when row_number = 2 then 'project_call'
-             else 'final_call'
-        end
-        else appointment_type
-    end as new_type
-from app_numerated
+    *
+from enter.customer_interactions
+where customer_id = '1243e1acaa'
+order by appointment_timestamp
 ;
+ customer_id |   order_timestamp   | order_postal_code | account_type | appointment_timestamp |  appointment_type   
+-------------+---------------------+-------------------+--------------+-----------------------+---------------------
+ 1243e1acaa  | 2023-09-08 00:00:00 |             67538 | A            | 2023-09-15 17:15:00   | on_site_appointment
+ 1243e1acaa  | 2023-09-08 00:00:00 |             67538 | A            | 2023-09-26 10:45:00   | project_call
+ 1243e1acaa  | 2023-09-08 00:00:00 |             67538 | A            | 2023-10-23 15:15:00   | final_call
+(3 rows)
