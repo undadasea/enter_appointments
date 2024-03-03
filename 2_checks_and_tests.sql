@@ -130,3 +130,8 @@ order by appointment_timestamp
  1243e1acaa  | 2023-09-08 00:00:00 |             67538 | A            | 2023-09-26 10:45:00   | project_call
  1243e1acaa  | 2023-09-08 00:00:00 |             67538 | A            | 2023-10-23 15:15:00   | final_call
 (3 rows)
+
+
+-- type 1:
+-- now in the final mart if we see an empty appointment, it means that no appointment has been created yet after the order
+

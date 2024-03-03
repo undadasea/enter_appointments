@@ -67,6 +67,7 @@ final_with_merged_timestamps_and_types as (
     select
         c.customer_id,
         c.appointment_timestamp,
+        group_type,
         case when group_type = 'type_2' and appointment_type is null then 
             lead(appointment_type) over (partition by c.customer_id order by appointment_timestamp)
             else appointment_type
@@ -78,4 +79,6 @@ final_with_merged_timestamps_and_types as (
 select
     *
 from final_with_merged_timestamps_and_types
-where not (appointment_timestamp is null and appointment_type is not null)
+where appointment_timestamp is not null and appointment_type is not null
+-- we filter them out for analysis
+-- but we should alert the operations team every time there's an incomplete appointment created
