@@ -9,7 +9,9 @@ It consists of a
 - SQL file `integration`
 - SQL file `checks_and_tests`
 
-In the `integration` file you can find queries for creating proper tables in PostgresSQL to integrate the source csv files. In the `checks_and_tests` file there are examples of data inconsistencies and solutions for them. 
+In the `integration` file you can find queries for creating proper tables in PostgresSQL to integrate the source csv files. In the `checks_and_tests` file there are examples of data inconsistencies and solutions for them. \
+\
+Main logic of the challenge is at `/enter/models/`. There's a two layers of data models: staging and marts. At staging there's cleaned data with fixed inconsistencies. At the mart layer you can find `customer_interactions` mart which combines orders and appointments for easier analysis. And the second mart `order_funnel` which shows aggregated information about customer conversion. 
 
 To run it locally
 - clone repository `$ git clone git@github.com:undadasea/enter_appointments.git`
